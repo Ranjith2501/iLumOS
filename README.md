@@ -6,49 +6,6 @@ and refines the chart in conversation. Every change arrives as a proposal with
 page-and-line citations, and only the analyst applies it. The refined chart
 exports to Word.
 
-It runs entirely in the browser. **No API key, no backend, no network calls.**
-Uploaded files never leave the tab.
-
----
-
-## Run it locally
-
-Requires Node 18.18 or newer.
-
-```bash
-npm install
-npm run dev
-```
-
-Open http://localhost:5173, click **Load the demo set**, tick the column-mapping
-confirmation, and continue through setup. Then follow [`DEMO_SCRIPT.md`](./DEMO_SCRIPT.md).
-
-To check the production build locally:
-
-```bash
-npm run build
-npm run preview      # http://localhost:4173
-```
-
-## Deploy to Vercel
-
-1. Push this folder to a new GitHub repository:
-   ```bash
-   git init
-   git add .
-   git commit -m "iLumos claim chart refinement prototype"
-   git branch -M main
-   git remote add origin https://github.com/<you>/<repo>.git
-   git push -u origin main
-   ```
-2. In Vercel, choose **Add New → Project** and import the repository.
-3. Vercel detects Vite from `vercel.json`. Keep the defaults
-   (build `npm run build`, output `dist`) and deploy.
-
-No environment variables are needed. Alternatively, run `npx vercel` from this folder.
-
----
-
 ## What the demo shows
 
 | Requirement | Where to see it |
@@ -83,8 +40,6 @@ Any message outside the supported commands gets a reply that says what the assis
 
 ## Assumptions
 
-- **Brand palette.** Navy `#0B1F3F` and orange `#F26B21` are approximated from lumenci.com. I couldn't read their stylesheet directly. Every colour is a variable at the top of `src/styles.css`, so exact brand values can be swapped there.
-- **Typefaces.** IBM Plex Sans is used for the interface. IBM Plex Serif is used for claim language and reasoning, so the legal artifact reads differently from the tool around it. Both are self-hosted via `@fontsource`, so the app works offline.
 - **Unnamed targets.** If a request names no element, it applies to the row of the open proposal. If no proposal is open, the AI asks one clarifying question with the rows offered as choices.
 - **One open proposal.** Only one proposal is open at a time. A new request replaces the open one, which stays visible in the chat but can't be applied.
 - **Undo scope.** Undo defaults to the narrowest scope that matches what you said: the last change, or the named row. It is always previewed before anything changes.
@@ -125,4 +80,3 @@ All in `public/demo-files/`, and downloadable from the setup screen. They are fi
 - The refinement wording is scripted for one sample matter, as described above.
 - URL capture is simulated. The only URL it accepts is `https://developer.acme-home.example/api/v3/autoschedule`, served from a bundled snapshot. Other URLs get an honest "can't reach that from this offline build" reply.
 - Sessions live in memory. Refreshing the page starts over.
-- The JavaScript bundle is about 1.3 MB, almost all of it the PDF parser.
